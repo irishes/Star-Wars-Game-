@@ -1,0 +1,55 @@
+body{
+
+}
+
+.header {
+    text-align: center;
+}
+
+.header h1 { 
+    color: yellow;
+    font-family: "STARWARS";
+}
+
+.header h2 {
+    color: yellow;
+    font-family: "STARWARS";
+}
+
+.forms {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 5%;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    flex-basis: 4;
+}
+
+.form h3 {
+    font-family: Arial, sans-serif;
+}
+
+.form label {
+    font-family: Arial, sans-serif;
+}
+
+.game {
+    background-color: #eeeeee;
+    border: solid;
+    border-radius: 5px;
+    border-color: gray;
+}
+
+@font-face {
+    font-family: "STARWARS"; 
+    src: url("//db.onlinewebfonts.com/t/c00548f5d217ed324ae9096051927001.eot"); 
+    src: url("//db.onlinewebfonts.com/t/c00548f5d217ed324ae9096051927001.eot?#iefix") format("embedded-opentype"), 
+    /*url("//db.onlinewebfonts.com/t/c00548f5d217ed324ae9096051927001.woff2") format("woff2"), */
+    url("//db.onlinewebfonts.com/t/c00548f5d217ed324ae9096051927001.woff") format("woff"), 
+    url("//db.onlinewebfonts.com/t/c00548f5d217ed324ae9096051927001.ttf") format("truetype"), 
+    url("//db.onlinewebfonts.com/t/c00548f5d217ed324ae9096051927001.svg#STARWARS") format("svg"); 
+} 

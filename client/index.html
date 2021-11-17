@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Star Wars</title>
+        <link rel="stylesheet" type="text/css" href="./client/css/styles.css"  />
+    </head>
+    <body>
+        <!--<div class="header">
+            <h1>STAR WARS</h1>
+            <h2>STAR FIGHTER ASSUALT</h2>
+        </div>
+
+        <div class="forms">
+            <form id="login-form" class="form">
+                <h3>Login</h3>
+                <label for="log-user">Username: </label><br/>
+                <input id="log-user" name="log-user" type="text"><br/>
+                <label for="log-pass">Password: </label><br/>
+                <input id="log-pass" name="log-pass" type="password"><br/>
+                <input id="log-submit" type="submit" value="Login">
+            </form>
+
+            <form id="register-form" class="form">
+                <h3>Register</h3>
+                <label for="reg-user">Username: </label><br/>
+                <input id="reg-user" name="reg-user" type="text"><br/>
+                <label for="reg-pass-1">Password: </label><br/>
+                <input id="reg-pass-1" name="reg-pass-1" type="password"><br/>
+                <label for="reg-pass-2"> Confirm Password: </label><br/>
+                <input id="reg-pass-2" name="reg-pass-2" type="password"><br/>
+                <input id="reg-submit" type="submit" value="Register">
+            </form>
+        </div>-->
+
+        <canvas id="game" width="500" height="500">
+        </canvas>
+    </body>
+</html>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+<script>
+    // Get Canvas Element
+    let ctx = document.getElementById("game").getContext("2d");
+    ctx.font = '30px Arial';
+
+    // INIT Client Socket
+    let socket = io();
+
+    // Recieve and Display Server Message
+    socket.on('serverMSG', function(data){
+        console.log(data.msg);
+    });
+
+    // Recieve and Update Position
+    socket.on('newPositions', function(data){
+        ctx.clearRect(0, 0, 500, 500);
+        console.log(data);
+        for(let i=0; i<data.player.length; i++){
+            ctx.fillText(data.player[i].number, data.player[i].x, data.player[i].y);
+        }
+
+        for(let i=0; i<data.bolt.length; i++){
+            ctx.fillRect(data.bolt[i].x-5, data.bolt[i].y-5, 10, 10);
+        }
+    });
+
+    //// Controls ////
+    let left = 65; // a
+    let right = 68; // d
+    let down = 83; // s
+    let up = 87; // w
+
+    document.onkeydown = function(event){
+        // Down Key
+        if(event.keyCode === right){
+            socket.emit('keyPress', {inputId:'right', state:true});
+        }
+        else if(event.keyCode === left){
+            socket.emit('keyPress', {inputId:'left', state:true});
+        }
+        else if(event.keyCode === up){
+            socket.emit('keyPress', {inputId:'up', state:true});
+        }
+        else if(event.keyCode === down){
+            socket.emit('keyPress', {inputId:'down', state:true});
+        }
+    }
+
+    document.onkeyup = function(event){
+        // Down Key
+        if(event.keyCode === right){
+            socket.emit('keyPress', {inputId:'right', state:false});
+        }
+        else if(event.keyCode === left){
+            socket.emit('keyPress', {inputId:'left', state:false});
+        }
+        else if(event.keyCode === up){
+            socket.emit('keyPress', {inputId:'up', state:false});
+        }
+        else if(event.keyCode === down){
+            socket.emit('keyPress', {inputId:'down', state:false});
+        }
+    }
+</script>
+
+<link href="//db.onlinewebfonts.com/c/c00548f5d217ed324ae9096051927001?family=STARWARS" rel="stylesheet" type="text/css"/> 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet"> 
