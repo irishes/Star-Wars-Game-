@@ -37,11 +37,48 @@ body{
     font-family: Arial, sans-serif;
 }
 
-.game {
+#game {
     background-color: #eeeeee;
     border: solid;
     border-radius: 5px;
     border-color: gray;
+}
+
+#hud{
+    width: 1000px;
+    border: solid black;
+    background-color: #454352;
+    border-radius: 5px;
+    color: white;
+
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.hud-component {
+    color: white;
+}
+
+.hud-component p{
+    font-family: Arial, sans-serif;
+    font-size: .9em;
+}
+
+#comms-area {
+    overflow-y: scroll;
+    border: solid black;
+    border-width: 1px;
+    border-radius: 5px;
+    background-color: lightgray;
+    padding: 20px; 
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+#comms-area div{
+    color: black;
+    font-family: Arial, sans-serif;
+    font-size: .9em;
 }
 
 @font-face {

@@ -32,8 +32,28 @@
             </form>
         </div>-->
 
-        <canvas id="game" width="500" height="500">
-        </canvas>
+        <canvas id="game" width="1000" height="500"></canvas>
+
+        <div id="hud">
+            <div id="hud-ship-stats" class="hud-component">
+                <p id="hull">Hull Integrity: </p>
+                <p id="shields">Shields: </p>
+                <p id="weapon">Current Weapon: </p>
+            </div>
+            <div id="hud-target" class="hud-component">
+                <img id="target-img" src="">
+                <p id="target-class"> Class</p>
+                <p id="target-hull">Target Hull: </p>
+                <p id="target-shields">Target Shields</p>
+            </div>
+            <div id="hud-comms" class="hud-component">
+                <p id="comms-status" online="false">Comms: Offline</p>
+                <form id="comms-form">
+                    <div id="comms-area"></div>
+                    <input id="comms-text" type="text" onkeydown="search(this)"></input>
+                </form>
+            </div>
+        </div>
     </body>
 </html>
 
@@ -46,14 +66,25 @@
     // INIT Client Socket
     let socket = io();
 
+    // Get Chat Elements
+    let chatForm = document.getElementById("comms-form");
+    let chatArea = document.getElementById("comms-area");
+    let chatText = document.getElementById("comms-text");
+
     // Recieve and Display Server Message
-    socket.on('serverMSG', function(data){
-        console.log(data.msg);
+    socket.on('addToChat', function(data){
+        chatText.innerHTML += '<div>' +_data + '</div>';
     });
+
+    chatForm.onsubmit = function(e){
+        e.preventDefault();
+        socket.emit('sendMsgToServer', chatInput.value);
+        chatInput.value;
+    }
 
     // Recieve and Update Position
     socket.on('newPositions', function(data){
-        ctx.clearRect(0, 0, 500, 500);
+        ctx.clearRect(0, 0, 1000, 500);
         console.log(data);
         for(let i=0; i<data.player.length; i++){
             ctx.fillText(data.player[i].number, data.player[i].x, data.player[i].y);
@@ -106,4 +137,4 @@
 <link href="//db.onlinewebfonts.com/c/c00548f5d217ed324ae9096051927001?family=STARWARS" rel="stylesheet" type="text/css"/> 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
