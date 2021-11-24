@@ -73,19 +73,19 @@
 
     // Recieve and Display Server Message
     socket.on('addToChat', function(data){
-        chatText.innerHTML += '<div>' +_data + '</div>';
+        chatText.innerHTML += '<div>' + data + '</div>';
     });
 
     chatForm.onsubmit = function(e){
         e.preventDefault();
-        socket.emit('sendMsgToServer', chatInput.value);
-        chatInput.value;
+        console.log("here");
+        socket.emit('sendMsgToServer', chatText.value);
+        chatText.value = '';
     }
 
     // Recieve and Update Position
     socket.on('newPositions', function(data){
         ctx.clearRect(0, 0, 1000, 500);
-        console.log(data);
         for(let i=0; i<data.player.length; i++){
             ctx.fillText(data.player[i].number, data.player[i].x, data.player[i].y);
         }
