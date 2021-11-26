@@ -36,21 +36,23 @@
 
         <div id="hud">
             <div id="hud-ship-stats" class="hud-component">
+                <h2>Ship Stats</h2>
                 <p id="hull">Hull Integrity: </p>
                 <p id="shields">Shields: </p>
                 <p id="weapon">Current Weapon: </p>
             </div>
             <div id="hud-target" class="hud-component">
-                <img id="target-img" src="">
+                <h2>Target</h2>
                 <p id="target-class"> Class</p>
                 <p id="target-hull">Target Hull: </p>
                 <p id="target-shields">Target Shields</p>
             </div>
             <div id="hud-comms" class="hud-component">
+                <h2>Communications</h2>
                 <p id="comms-status" online="false">Comms: Offline</p>
+                <div id="comms-area"></div>
                 <form id="comms-form">
-                    <div id="comms-area"></div>
-                    <input id="comms-text" type="text" onkeydown="search(this)"></input>
+                    <input id="comms-text" type="text"></input>
                 </form>
             </div>
         </div>
@@ -73,12 +75,12 @@
 
     // Recieve and Display Server Message
     socket.on('addToChat', function(data){
-        chatText.innerHTML += '<div>' + data + '</div>';
+        console.log(data);
+        chatArea.innerHTML += '<div>' + data + '</div>';
     });
 
     chatForm.onsubmit = function(e){
         e.preventDefault();
-        console.log("here");
         socket.emit('sendMsgToServer', chatText.value);
         chatText.value = '';
     }

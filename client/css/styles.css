@@ -27,6 +27,7 @@ body{
     flex-direction: column;
     color: white;
     flex-basis: 4;
+    flex-shrink: 0;
 }
 
 .form h3 {
@@ -46,8 +47,9 @@ body{
 
 #hud{
     width: 1000px;
-    border: solid black;
-    background-color: #454352;
+    height: 250px;
+    border: solid #616161;
+    background-color: #787878;
     border-radius: 5px;
     color: white;
 
@@ -59,9 +61,15 @@ body{
     color: white;
 }
 
+.hud-component h2{
+    font-family: Arial, sans-serif;
+    font-size: 1.1em;
+}
+
 .hud-component p{
     font-family: Arial, sans-serif;
     font-size: .9em;
+    margin-left: 1%;
 }
 
 #comms-area {
@@ -73,6 +81,7 @@ body{
     padding: 20px; 
     padding-left: 10px;
     padding-top: 10px;
+    height: 50px;
 }
 
 #comms-area div{

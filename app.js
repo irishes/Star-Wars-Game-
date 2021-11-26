@@ -107,9 +107,11 @@ let Player = function(id){
     self.updateSpd = function(){
         if(self.pressingRight){
             self.spdX = self.maxSpd;
+            self.angle += 1;
         }
         else if(self.pressingLeft){
             self.spdX = -self.maxSpd;
+            self.angle -= 1;
         }
         else{
             self.spdX = 0;
@@ -180,9 +182,10 @@ io.sockets.on('connection', function(socket){
 
     socket.on('sendMsgToServer', function(data){
         let playerName = ("" + socket.id).slice(2, 7);
+        console.log(data);
 
         for(let i in SOCKET_LIST){
-            SOCKET_LIST[i].emit('addToChat', playerName, + ": " + data);
+            SOCKET_LIST[i].emit('addToChat', playerName + ": " + data);
         }
     });
 });
