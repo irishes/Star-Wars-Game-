@@ -32,14 +32,19 @@ let Entity = function(){
         self.y += self.spdY;
     }
 
+    self.getDistance = function(pt){
+        return Math.sqrt(Math.pow(self.x-pt.x, 2) + Math.pow(self.y-pt.y, 2));
+    }
+
     return self;
 }
 
-let Bolt = function(angle){
+let Bolt = function(parent, angle){
     let self = Entity();
     self.id = Math.random();
     self.spdX = Math.cos(angle/180*Math.PI) * 10;
     self.spdY = Math.sin(angle/180*Math.PI) * 10;
+    self.parent = parent;
     self.color = "red";
     self.damage = 0;
 
@@ -53,6 +58,15 @@ let Bolt = function(angle){
             self.toRemove = true;
         }
         superUpdate();
+
+        for(let i in Player.list){
+            let p = Player.list[i];
+
+            if(self.getDistance(p) < 32 && self.parent !== p.id){
+                // Collision 
+                self.toRemove = true;
+            }
+        }
     }
 
     Bolt.list[self.id] = self;
@@ -70,14 +84,35 @@ Bolt.update = function(){
     for(let i in Bolt.list){
         let bolt = Bolt.list[i];
         bolt.update();
-        pack.push({
-            x: bolt.x,
-            y: bolt.y
-        });
+
+        if(bolt.toRemove){
+            delete Bolt.list[i];
+        }else{
+            pack.push({
+                x: bolt.x,
+                y: bolt.y
+            });
+        }
     }
 
     return pack;
 };
+
+let Ship = function(parent){
+    let self = Entity();
+    self.parent = parent;
+    self.angle = 0;
+    self.name = "";
+    self.image = "";
+    self.engineSound = "";
+    self.shipClass = "";
+    self.turnLeftSpeed = 0;
+    self.turnRightSpeed = 0;
+    self.maxSpeed = 0;
+    self.minSpeed = 0;
+    self.accelSpeed = 0;
+    self.deccelSpeed = 0;
+}
 
 let Player = function(id){
     let self = Entity();
@@ -97,11 +132,25 @@ let Player = function(id){
     self.spd = 1;
     self.minSpd = 1;
     self.maxSpd = 10;
+    self.comms = true;
+    self.map = true;
+    self.isJammed = false;
+
 
     let superUpdate = self.update;
     self.update = function(){
         self.updateSpd();
         superUpdate();
+
+        if(self.pressingShoot1){
+            self.shootBolt(Math.random()*360);
+        }
+    }
+
+    self.shootBolt = function(angle){
+        let b = Bolt(self.id, angle);
+        b.x = self.x;
+        b.y = self.y;
     }
 
     self.updateSpd = function(){
@@ -138,14 +187,17 @@ Player.onConnect = function(socket){
         if(data.inputId === 'right'){
             player.pressingRight = data.state;
         }
-        if(data.inputId === 'left'){
+        else if(data.inputId === 'left'){
             player.pressingLeft = data.state;
         }
-        if(data.inputId === 'up'){
+        else if(data.inputId === 'up'){
             player.pressingUp = data.state;
         }
-        if(data.inputId === 'down'){
+        else if(data.inputId === 'down'){
             player.pressingDown = data.state;
+        }
+        else if(data.inputId === 'attack1'){
+            player.pressingShoot1 = data.state;
         }
     });
 }
@@ -170,12 +222,45 @@ Player.update = function(){
 
 let DEBUG = true;
 
+let USERS = {
+    //username:password
+    "luke":"skywalker",
+};
+
+let isValidPassword = function(data){
+    return USERS[data.username] === data.password;
+}
+
+let usernameTaken = function(data){
+    return USERS[data.username];
+}
+
+let addUser = function(data){
+    USERS[data.username] = data.password;
+}
+
 let io = require('socket.io')(server, {});
 io.sockets.on('connection', function(socket){
     socket.id = Math.random();
     SOCKET_LIST[socket.id] = socket;
 
-    Player.onConnect(socket);
+    socket.on("signIn", function(data){
+        if(isValidPassword(data)){
+            Player.onConnect(socket);
+            socket.emit('signInResponse', {res:true});
+        }else{
+            socket.emit('signInResponse', {res:false});
+        }
+    });
+
+    socket.on("signUp", function(data){
+        if(usernameTaken(data)){
+            socket.emit('signUpResponse', {res:true});
+        }else{
+            addUser(data);
+            socket.emit('signUpResponse', {res:false});
+        }
+    });
 
     socket.on('disconnect', function(){
         delete SOCKET_LIST[socket.id];

@@ -5,68 +5,110 @@
         <link rel="stylesheet" type="text/css" href="./client/css/styles.css"  />
     </head>
     <body>
-        <!--<div class="header">
-            <h1>STAR WARS</h1>
-            <h2>STAR FIGHTER ASSUALT</h2>
-        </div>
-
-        <div class="forms">
-            <form id="login-form" class="form">
-                <h3>Login</h3>
-                <label for="log-user">Username: </label><br/>
-                <input id="log-user" name="log-user" type="text"><br/>
-                <label for="log-pass">Password: </label><br/>
-                <input id="log-pass" name="log-pass" type="password"><br/>
-                <input id="log-submit" type="submit" value="Login">
-            </form>
-
-            <form id="register-form" class="form">
-                <h3>Register</h3>
-                <label for="reg-user">Username: </label><br/>
-                <input id="reg-user" name="reg-user" type="text"><br/>
-                <label for="reg-pass-1">Password: </label><br/>
-                <input id="reg-pass-1" name="reg-pass-1" type="password"><br/>
-                <label for="reg-pass-2"> Confirm Password: </label><br/>
-                <input id="reg-pass-2" name="reg-pass-2" type="password"><br/>
-                <input id="reg-submit" type="submit" value="Register">
-            </form>
-        </div>-->
-
-        <canvas id="game" width="1000" height="500"></canvas>
-
-        <div id="hud">
-            <div id="hud-ship-stats" class="hud-component">
-                <h2>Ship Stats</h2>
-                <p id="hull">Hull Integrity: </p>
-                <p id="shields">Shields: </p>
-                <p id="weapon">Current Weapon: </p>
+        <div id="login-div">
+            <div class="header">
+                <h1>STAR WARS</h1>
+                <h2>STAR FIGHTER ASSUALT</h2>
             </div>
-            <div id="hud-target" class="hud-component">
-                <h2>Target</h2>
-                <p id="target-class"> Class</p>
-                <p id="target-hull">Target Hull: </p>
-                <p id="target-shields">Target Shields</p>
+
+            <div class="login">
+                Username: <input id="signin-username" type="text"></input><br />
+                Password: <input id="signin-password" type="text"></input>
+                <button id="signin">Sign In</button>
+                <button id="signup">Sign Up</button>
             </div>
-            <div id="hud-comms" class="hud-component">
-                <h2>Communications</h2>
-                <p id="comms-status" online="false">Comms: Offline</p>
-                <div id="comms-area"></div>
-                <form id="comms-form">
-                    <input id="comms-text" type="text"></input>
-                </form>
+        </div>  
+       
+        <div id="game-div" style="display:none;">  
+            <canvas id="game" width="1000" height="500"></canvas>
+
+            <div id="hud">
+                <div id="hud-ship-stats" class="hud-component">
+                    <h2>Ship Stats</h2>
+                    <p id="hull">Hull Integrity: </p>
+                    <p id="shields">Shields: </p>
+                    <p id="weapon">Current Weapon: </p>
+                </div>
+                <div id="hud-target" class="hud-component">
+                    <h2>Target</h2>
+                    <p id="target-class"> Class</p>
+                    <p id="target-hull">Target Hull: </p>
+                    <p id="target-shields">Target Shields</p>
+                </div>
+                <div id="hud-comms" class="hud-component">
+                    <h2>Communications</h2>
+                    <p id="comms-status" online="false">Comms: Offline</p>
+                    <div id="comms-area"></div>
+                    <form id="comms-form">
+                        <input id="comms-text" type="text"></input>
+                    </form>
+                </div>
             </div>
         </div>
     </body>
 </html>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
-<script>
+<script>    
+    /// Game Code ///
     // Get Canvas Element
     let ctx = document.getElementById("game").getContext("2d");
     ctx.font = '30px Arial';
 
+    // Images
+    let Img = {};
+    // X-Wings
+    Img.t_65_red_1 = new Image();
+    Img.t_65_red_1.src = '/client/img/ships/spr_t_65_red_1_0.png';
+    Img.t_65_red_2 = new Image();
+    Img.t_65_red_2.src = '/client/img/ships/spr_t_65_red_2_0.png';
+    Img.t_65_red_3 = new Image();
+    Img.t_65_red_3.src = '/client/img/ships/spr_t_65_red_3_0.png';
+    Img.t_65_blue_1 = new Image();
+    Img.t_65_blue_1.src = '/client/img/ships/spr_t_65_blue_1_0.png';
+    Img.t_65_blue_2 = new Image();
+    Img.t_65_blue_2.src = '/client/img/ships/spr_t_65_blue_2_0.png';
+    Img.t_65_blue_3 = new Image();
+    Img.t_65_blue_3.src = '/client/img/ships/spr_t_65_blue_3_0.png';
+
     // INIT Client Socket
     let socket = io();
+
+    /// Sign In Code ///
+    let loginDiv = document.getElementById("login-div");
+    let login = document.getElementById("login");
+    let username = document.getElementById("signin-username");
+    let password = document.getElementById("signin-password");
+    let signIn = document.getElementById("signin");
+    let signUp = document.getElementById("signup");
+    let gameDiv = document.getElementById("game-div");
+
+    // Sign In
+    signIn.onclick = function(){
+        socket.emit('signIn', {username:username.value, password:password.value});
+    }
+
+    // Sign Up
+    signUp.onclick = function(){
+        socket.emit('signUp', {username:username.value, password:password.value});
+    }
+
+    socket.on('signInResponse', function(data){
+        if(data.res){
+            loginDiv.style.display = "none";
+            gameDiv.style.display = "inline-block";
+        }else{
+            alert("Sign In Unsuccessful");
+        }
+    });
+
+    socket.on('signUpResponse', function(data){
+        if(!data.res){
+            alert("Sign Up Successful");
+        }else{
+            alert("Sign Up Unsuccessful");
+        }
+    });
 
     // Get Chat Elements
     let chatForm = document.getElementById("comms-form");
@@ -140,6 +182,14 @@
         else if(event.keyCode === down){
             socket.emit('keyPress', {inputId:'down', state:false});
         }
+    }
+
+    document.onmousedown = function(event){
+        socket.emit('keyPress', {inputId:'attack1', state:true});
+    }
+
+    document.onmouseup = function(event){
+        socket.emit('keyPress', {inputId:'attack1', state:false});
     }
 </script>
 
