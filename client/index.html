@@ -5,17 +5,40 @@
         <link rel="stylesheet" type="text/css" href="./client/css/styles.css"  />
     </head>
     <body>
-        <div id="login-div">
+        <div class="overlay">
+            <div class="loader">
+                <div class="bar progress">
+                    <div class="progress"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="main-menu" class="main-menu">
             <div class="header">
                 <h1>STAR WARS</h1>
                 <h2>STAR FIGHTER ASSUALT</h2>
             </div>
 
             <div class="login">
-                Username: <input id="signin-username" type="text"></input><br />
-                Password: <input id="signin-password" type="text"></input>
-                <button id="signin">Sign In</button>
-                <button id="signup">Sign Up</button>
+                <div class="section">
+                    <h2>Enter Username</h2>
+
+                    <input id="signin-username" type="text" class="login-text"></input>
+                </div>
+
+                <div class="section">
+                    <h2>Pick Team</h2>
+
+                    <div class="subsection">
+                        <div id="rebel" class="team-button selected">
+                            <img src="/client/img/flags/rebel.png"> 
+                        </div>
+
+                        <div id="empire" class="team-button">
+                            <img src="/client/img/flags/empire.png"> 
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>  
        
@@ -73,42 +96,6 @@
 
     // INIT Client Socket
     let socket = io();
-
-    /// Sign In Code ///
-    let loginDiv = document.getElementById("login-div");
-    let login = document.getElementById("login");
-    let username = document.getElementById("signin-username");
-    let password = document.getElementById("signin-password");
-    let signIn = document.getElementById("signin");
-    let signUp = document.getElementById("signup");
-    let gameDiv = document.getElementById("game-div");
-
-    // Sign In
-    signIn.onclick = function(){
-        socket.emit('signIn', {username:username.value, password:password.value});
-    }
-
-    // Sign Up
-    signUp.onclick = function(){
-        socket.emit('signUp', {username:username.value, password:password.value});
-    }
-
-    socket.on('signInResponse', function(data){
-        if(data.res){
-            loginDiv.style.display = "none";
-            gameDiv.style.display = "inline-block";
-        }else{
-            alert("Sign In Unsuccessful");
-        }
-    });
-
-    socket.on('signUpResponse', function(data){
-        if(!data.res){
-            alert("Sign Up Successful");
-        }else{
-            alert("Sign Up Unsuccessful");
-        }
-    });
 
     // Get Chat Elements
     let chatForm = document.getElementById("comms-form");
@@ -193,6 +180,8 @@
     }
 </script>
 
+<script src="/client/js/load.js"></script>
+<script src="/client/js/signIn.js"></script>
 <link href="//db.onlinewebfonts.com/c/c00548f5d217ed324ae9096051927001?family=STARWARS" rel="stylesheet" type="text/css"/> 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

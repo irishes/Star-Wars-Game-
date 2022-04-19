@@ -1,101 +1,251 @@
-body{
-
+body {
+  background-color: black;
 }
 
-.header {
-    text-align: center;
+body .overlay .loader {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-item-align: center;
+      align-self: center;
 }
 
-.header h1 { 
-    color: yellow;
-    font-family: "STARWARS";
+body .overlay .loader .spinner {
+  border-color: #47e9f3;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 3px;
 }
 
-.header h2 {
-    color: yellow;
-    font-family: "STARWARS";
+body .overlay .loader .bar {
+  border-radius: 10px;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #13e062;
+  -webkit-box-shadow: 0px 0px 5px #13e062;
+          box-shadow: 0px 0px 5px #13e062;
+  width: 500px;
+  height: 75px;
+  margin-top: 20%;
+}
+
+body .overlay .loader .bar .progress {
+  -webkit-clip-path: polygon(50% 0, 100% 100%, 100% 100%, 0 50%);
+          clip-path: polygon(50% 0, 100% 100%, 100% 100%, 0 50%);
+  background-color: rgba(180, 0, 17, 0.75);
+}
+
+body .main-menu {
+  display: none;
+}
+
+body .main-menu .header {
+  text-align: center;
+}
+
+body .main-menu .header h1 {
+  color: yellow;
+  font-family: "STARWARS";
+  font-size: 3rem;
+}
+
+body .main-menu .header h2 {
+  color: yellow;
+  font-family: "STARWARS";
+  font-size: 2rem;
+}
+
+body .main-menu .login {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  /*
+            .login-button {
+                border-radius: 15px;
+                border-width: 5px;
+                border-color: white;
+                border-style: solid;
+                background-color: black;
+                color: white;
+                font-size: 1rem;
+                font-weight: bold;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                width: 100px;
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+            */
+}
+
+body .main-menu .login .section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 0px;
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+
+body .main-menu .login .section h2 {
+  color: white;
+  font-size: 2rem;
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-bottom: 0px;
+  margin-bottom: 5px;
+}
+
+body .main-menu .login .section .login-text {
+  width: 200px;
+}
+
+body .main-menu .login .section .subsection {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  gap: 20px;
+}
+
+body .main-menu .login .section .subsection .team-button {
+  /*&.selected {
+                            border-style: solid;
+                            border-width: 7px;
+                            border-radius: 10px;
+                            border-color: greenyellow;
+                        }*/
+}
+
+body .main-menu .login .section .subsection .team-button img {
+  width: 300px;
+}
+
+body .main-menu .login .section .subsection .team-button:hover {
+  cursor: pointer;
 }
 
 .forms {
-    display: flex;
-    justify-content: space-evenly;
-    margin-top: 5%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  margin-top: 5%;
 }
 
 .form {
-    display: flex;
-    flex-direction: column;
-    color: white;
-    flex-basis: 4;
-    flex-shrink: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  color: white;
+  -ms-flex-preferred-size: 4;
+      flex-basis: 4;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
 }
 
 .form h3 {
-    font-family: Arial, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
 .form label {
-    font-family: Arial, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
 #game {
-    background-color: #eeeeee;
-    border: solid;
-    border-radius: 5px;
-    border-color: gray;
+  background-color: #eeeeee;
+  border: solid;
+  border-radius: 5px;
+  border-color: gray;
 }
 
-#hud{
-    width: 1000px;
-    height: 225px;
-    border: solid #616161;
-    background-color: #787878;
-    border-radius: 5px;
-    color: white;
-
-    display: flex;
-    justify-content: space-evenly;
+#hud {
+  width: 1000px;
+  height: 225px;
+  border: solid #616161;
+  background-color: #787878;
+  border-radius: 5px;
+  color: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
 }
 
 .hud-component {
-    color: white;
+  color: white;
 }
 
-.hud-component h2{
-    font-family: Arial, sans-serif;
-    font-size: 1.1em;
+.hud-component h2 {
+  font-family: Arial, sans-serif;
+  font-size: 1.1em;
 }
 
-.hud-component p{
-    font-family: Arial, sans-serif;
-    font-size: .9em;
-    margin-left: 1%;
+.hud-component p {
+  font-family: Arial, sans-serif;
+  font-size: .9em;
+  margin-left: 1%;
 }
 
 #comms-area {
-    overflow-y: scroll;
-    border: solid black;
-    border-width: 1px;
-    border-radius: 5px;
-    background-color: lightgray;
-    padding: 20px; 
-    padding-left: 10px;
-    padding-top: 10px;
-    height: 50px;
+  overflow-y: scroll;
+  border: solid black;
+  border-width: 1px;
+  border-radius: 5px;
+  background-color: lightgray;
+  padding: 20px;
+  padding-left: 10px;
+  padding-top: 10px;
+  height: 50px;
 }
 
-#comms-area div{
-    color: black;
-    font-family: Arial, sans-serif;
-    font-size: .9em;
+#comms-area div {
+  color: black;
+  font-family: Arial, sans-serif;
+  font-size: .9em;
 }
 
 @font-face {
-    font-family: "STARWARS"; 
-    src: url("//db.onlinewebfonts.com/t/c00548f5d217ed324ae9096051927001.eot"); 
-    src: url("//db.onlinewebfonts.com/t/c00548f5d217ed324ae9096051927001.eot?#iefix") format("embedded-opentype"), 
-    /*url("//db.onlinewebfonts.com/t/c00548f5d217ed324ae9096051927001.woff2") format("woff2"), */
-    url("//db.onlinewebfonts.com/t/c00548f5d217ed324ae9096051927001.woff") format("woff"), 
-    url("//db.onlinewebfonts.com/t/c00548f5d217ed324ae9096051927001.ttf") format("truetype"), 
-    url("//db.onlinewebfonts.com/t/c00548f5d217ed324ae9096051927001.svg#STARWARS") format("svg"); 
-} 
+  font-family: "STARWARS";
+  src: url("//db.onlinewebfonts.com/t/c00548f5d217ed324ae9096051927001.eot");
+  src: url("//db.onlinewebfonts.com/t/c00548f5d217ed324ae9096051927001.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/c00548f5d217ed324ae9096051927001.woff") format("woff"), url("//db.onlinewebfonts.com/t/c00548f5d217ed324ae9096051927001.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/c00548f5d217ed324ae9096051927001.svg#STARWARS") format("svg");
+}
+/*# sourceMappingURL=styles.css.map */

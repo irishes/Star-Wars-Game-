@@ -222,9 +222,14 @@ Player.update = function(){
 
 let DEBUG = true;
 
+/*
 let USERS = {
     //username:password
     "luke":"skywalker",
+};
+*/
+let USERS = {
+    "luke":"rebels",
 };
 
 let isValidPassword = function(data){
